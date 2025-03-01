@@ -1,0 +1,49 @@
+/* app.css - This stylesheet is located in the 'style' folder of the project */
+
+/* ====== Main container styling ====== */
+/* I want the main container to use flexbox for layout control */
+main {
+    display: flex; /* Enables flexbox for horizontal alignment */
+    height: calc(100vh - 30px); /* Sets the height to full viewport minus 30px */
+}
+
+/* ====== List Section Styling ====== */
+/* This section represents the task list area */
+#list {
+    background-color: aqua; /* Assigns a light blue background for visibility */
+    flex: 6; /* Allocates equal flex space as the form section */
+}
+
+/* ====== Form Section Styling ====== */
+/* This section is for task entry and form controls */
+#form {
+    background-color: beige; /* Uses a neutral beige background for contrast */
+    flex: 6; /* Allocates equal flex space as the list section */
+}
+
+/* ====== Task Container ======  */
+/* Each task is displayed as a bordered flex container */
+.task {
+    margin: 10px 20px; /* Adds spacing around each task for better readability */
+    padding: 10px; /* Adds internal spacing inside each task */
+    display: flex; /* Uses flexbox to align child elements */
+    border: 1px solid #333; /* Provides a dark border to define task separation */
+}
+
+/* ====== Task Information Section ====== */
+/* This section holds the task title and description */
+.task .info {
+    flex: 3; /* Gives more space to the task information compared to other elements */
+}
+
+/* ====== Task Status Label ====== */
+/* This section displays the status of the task */
+.task .status {
+    flex: 1; /* Allocates a smaller portion of the task container for status */
+}
+
+/* Task Date and Budget Section */
+/* This section holds the start date and budget details of the task */
+.task .dateBudget {
+    flex: 1; /* Allocates minimal space for date and budget details */
+}

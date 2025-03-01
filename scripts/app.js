@@ -80,7 +80,7 @@ function loadTask() {
             // Filter tasks belonging to a specific user (assumed name "Adrian55")
             for (let i = 0; i < data.length; i++) {
                 let task = data[i];
-                if (task.name == "Adrian55") {
+                if (task.name == "KoireeTask") {
                     displayTask(task); // Display user's tasks on the UI
                 }
             }
