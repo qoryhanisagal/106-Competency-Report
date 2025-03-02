@@ -25,52 +25,53 @@
 
         <!-- Task Form Section for adding new tasks -->
         <section id="form">
-            
-            <!-- Input field for task title -->
-            <div class="mt-3">
-                <label class="form-label">Title</label>
-                <input type="text" class="form-control" id="txtTitle">
-            </div>
+            <form id="taskForm">
+                <!-- Input field for task title -->
+                <div class="mt-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-control" id="txtTitle" required>
+                </div>
 
-            <!-- Input field for task description -->
-            <div class="mt-3">
-                <label class="form-label">Description</label>
-                <textarea rows="3" class="form-control" id="txtDescription"></textarea>
-            </div>
-            
-            <!-- Color picker for task -->
-            <div class="mt-3">
-                <label class="form-label">Color</label>
-                <input type="color" class="form-control" id="selColor">
-            </div>
+                <!-- Input field for task description -->
+                <div class="mt-3">
+                    <label class="form-label">Description</label>
+                    <textarea rows="3" class="form-control" id="txtDescription" required></textarea>
+                </div>
+                
+                <!-- Color picker for task -->
+                <div class="mt-3">
+                    <label class="form-label">Color</label>
+                    <input type="color" class="form-control" id="selColor">
+                </div>
 
-            <!-- Date selector for task start date -->
-            <div class="mt-3">
-                <label class="form-label">Date</label>
-                <input type="datetime-local" class="form-control" id="selDate">
-            </div>
+                <!-- Date selector for task start date -->
+                <div class="mt-3">
+                    <label class="form-label">Date</label>
+                    <input type="datetime-local" class="form-control" id="selDate" required>
+                </div>
 
-            <!-- Dropdown menu for task status selection -->
-            <div class="mt-3">
-                <label class="form-label">Status</label>
-                <select class="form-control" id="selStatus">
-                    <option>New</option>
-                    <option>In progress</option>
-                    <option>Completed</option>
-                    <option>Canceled</option>
-                </select>
-            </div>
-            
-            <!-- Input field for task budget -->
-            <div class="mt-3">
-                <label class="form-label">Budget</label>
-                <input type="number" class="form-control" id="numBudget">
-            </div>
+                <!-- Dropdown menu for task status selection -->
+                <div class="mt-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-control" id="selStatus">
+                        <option>New</option>
+                        <option>In progress</option>
+                        <option>Completed</option>
+                        <option>Canceled</option>
+                    </select>
+                </div>
+                
+                <!-- Input field for task budget -->
+                <div class="mt-3">
+                    <label class="form-label">Budget</label>
+                    <input type="number" class="form-control" id="numBudget" min="0" required>
+                </div>
 
-            <!-- Button to save task -->
-            <div>
-                <button class="btn btn-dark" id="btnSave">Add</button>
-            </div>
+                <!-- Button to save task -->
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-dark" id="btnSave">Add</button>
+                </div>
+            </form>
         </section>
     </main>
     
