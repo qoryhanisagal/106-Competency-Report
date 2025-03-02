@@ -1,121 +1,125 @@
 /* ====== General Styles ====== */
-/* I'm setting the font to Arial and adding a light background to keep the design clean */
-body {
+/* I'm setting the font to Arial because it's clean and readable. 
+   The background color is light to keep the interface looking modern and easy on the eyes. */
+   body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    padding: 20px;
-    margin: 0;
+    background-color: #f8f9fa; /* Light gray background for a modern feel */
+    padding: 20px; /* Adding spacing to prevent elements from touching the edges */
+    margin: 0; /* Ensuring there’s no unwanted page margin */
 }
 
-/* I want to keep the container from getting too wide */
+/* I'm setting a max width for the container so the content doesn't stretch too wide */
 .container {
     max-width: 2500px;
 }
 
-/* I'm using flexbox to keep everything centered and spaced properly */
+/* I'm using flexbox to ensure that the task list and form are well-spaced and centered */
 .row {
     display: flex;
-    justify-content: center; /* Centers both sections */
-    gap: 50px; /* Adds space between Task List & Add New Task */
+    justify-content: center; /* Centers both sections in the available space */
+    gap: 50px; /* Adds a gap between the Task List and Add New Task sections */
 }
 
 /* ====== Task List Section ====== */
-/* I want the task list to have a white background with some padding and a shadow for depth */
+/* I want the task list to stand out with a white background, padding for spacing, 
+   and a subtle shadow to give it some depth */
 #list {
     background: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    height: 100%;
-    overflow-y: auto;
-    flex: 1;
+    border-radius: 10px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    height: 100%; /* Ensuring it takes full height */
+    overflow-y: auto; /* Allows scrolling if there are too many tasks */
+    flex: 1; /* Ensures equal space distribution */
 }
 
 /* ====== Task Form Section ====== */
-/* The task form should match the task list's styling for consistency */
+/* I'm making sure the form section matches the task list visually for consistency */
 #form {
     background: white;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    flex: 1;
+    border-radius: 10px; /* Matching rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Matching the subtle depth */
+    flex: 1; /* Ensuring both sections take equal space */
 }
 
 /* ====== Task Cards Styling ====== */
-/* Each task card should have a white background with a left border for color differentiation */
+/* Each task should have a structured, clean appearance with a colored left border to indicate status */
 .task {
     background: white;
-    border-left: 5px solid;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
+    border-left: 5px solid; /* Border will be set dynamically based on task color */
+    border-radius: 10px; /* Soft rounded edges for a modern touch */
+    padding: 15px; /* Adding spacing for better readability */
+    margin-bottom: 15px; /* Adding space between tasks */
     display: flex;
     flex-direction: column;
     width: 100%;
-    border: 2px solid #ccc;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid #ccc; /* Subtle border for separation */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
 /* ====== Task Info ====== */
-/* I want the task title to stand out with bold styling */
+/* I want the task title to be bold and easy to read */
 .task h3 {
     margin: 0;
     font-size: 18px;
     font-weight: bold;
 }
 
-/* I'm adding spacing and a slightly lighter text color for task descriptions */
+/* The description should have a smaller, lighter font to contrast with the title */
 .task p {
     margin: 5px 0;
-    color: #666;
+    color: #666; /* Slightly faded color to distinguish it from the title */
     font-size: 16px;
 }
 
 /* ====== Status Colors ====== */
-/* I'm setting background colors for each status type to visually differentiate tasks */
+/* I'm setting distinct background colors for different task statuses 
+   so users can quickly differentiate them at a glance. */
 .status.New {
-    background-color: #007bff;
+    background-color: #007bff; /* Blue for new tasks */
     color: white;
 }
 
 .status.InProgress {
-    background-color: #ffc107;
+    background-color: #ffc107; /* Yellow for in-progress tasks */
     color: black;
 }
 
 .status.Completed {
-    background-color: #28a745;
+    background-color: #28a745; /* Green for completed tasks */
     color: white;
 }
 
 .status.Canceled {
-    background-color: #dc3545;
+    background-color: #dc3545; /* Red for canceled tasks */
     color: white;
 }
 
 /* ====== Buttons ====== */
-/* I'm making sure both buttons span the full width and have padding for easy interaction */
+/* I want both buttons to be large enough to be easily clickable, 
+   with smooth color transitions on hover */
 #btnSave, #btnClear {
-    width: 100%;
+    width: 100%; /* Full-width buttons for easier interaction */
     padding: 12px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 5px; /* Rounded corners for a sleek look */
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.3s; /* Smooth color transition on hover */
 }
 
-/* The save button should be green with a hover effect */
+/* Save button: Green to indicate adding a task */
 #btnSave {
-    background-color: #28a745;
+    background-color: #28a745; /* Primary green */
     color: white;
     border: none;
 }
 
 #btnSave:hover {
-    background-color: #218838;
+    background-color: #218838; /* Slightly darker green on hover */
 }
 
-/* The clear button should be red with a hover effect */
+/* Clear button: Red to indicate deletion of all tasks */
 #btnClear {
     background-color: #dc3545;
     color: white;
@@ -124,27 +128,27 @@ body {
 }
 
 #btnClear:hover {
-    background-color: #c82333;
+    background-color: #c82333; /* Slightly darker red on hover */
 }
 
 /* ====== Task Date and Budget Section ====== */
-/* I'm using flexbox to separate the date and budget */
+/* I'm using flexbox to ensure the date is aligned on the left, and the budget is right-aligned */
 .task .dateBudget {
     display: flex;
-    justify-content: space-between; /* Spreads items apart */
+    justify-content: space-between; /* Keeps the date and budget apart */
     align-items: center;
     font-size: 16px;
     color: #444;
 }
 
-/* I want the budget to be pushed to the far right */
+/* The budget should always be aligned to the right to maintain a neat layout */
 .task .dateBudget label:last-child {
-    margin-left: auto;
-    font-weight: bold;
+    margin-left: auto; /* Pushes budget to the right */
+    font-weight: bold; /* Making the budget stand out */
 }
 
 /* ====== Responsive Fix ====== */
-/* On smaller screens, I'm making sure the layout stacks vertically */
+/* On smaller screens, I want the layout to stack vertically instead of being side-by-side */
 @media (max-width: 768px) {
     .row {
         flex-direction: column;
