@@ -1,5 +1,4 @@
 // task.js - This script is located in the 'scripts' folder of the project.
-
 class Task {
     /**
      * Constructor for the Task class.
@@ -8,7 +7,7 @@ class Task {
      * @param {string} title - The title of the task.
      * @param {string} description - A brief description of the task.
      * @param {string} color - The color code associated with the task.
-     * @param {string} startdate - The start date of the task.
+     * @param {string} startDate - The start date of the task.
      * @param {string} status - The current status of the task (e.g., pending, completed).
      * @param {number} budget - The allocated budget for the task.
      */
@@ -17,9 +16,9 @@ class Task {
         this.title = title; // Storing the task title
         this.desc = description; // Storing the task description
         this.color = color; // Assigning a color for UI display
-        this.startdate = startdate; // Storing the task's start date
+        this.startDate = startDate; // Storing the task's start date
         this.status = status; // Storing the current task status
-        this.budget = budget; // Storing the allocated budget
+        this.budget = parseFloat(budget); // Storing the allocated budget
         this.name = "KoireeTask"; // Hardcoded name (this might be dynamic in a real app???)
     }
 }

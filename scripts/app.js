@@ -1,210 +1,135 @@
-// app.js - This script is located in the 'scripts' folder of the project.
+$(document).ready(function () {
+    function saveTask() {
+        console.log("✅ saveTask() function was called!"); // Debugging Step 1
+    
+        // Get values from input fields
+        const title = $("#txtTitle").val().trim();
+        const description = $("#txtDescription").val().trim();
+        const color = $("#selColor").val();
+        const startDate = $("#selDate").val();
+        const status = $("#selStatus").val();
+        const budget = $("#numBudget").val();
+    
+        // ✅ Debugging Step 2: Log values before validation
+        console.log("Captured Values:");
+        console.log("Title:", title);
+        console.log("Description:", description);
+        console.log("Color:", color);
+        console.log("Start Date:", startDate);
+        console.log("Status:", status);
+        console.log("Budget:", budget);
+    
+        // Validation: Ensure required fields are not empty
+        if (!title || !description || !startDate || !budget) {
+            alert("⚠ Please fill in all required fields.");
+            console.error("❌ ERROR: Missing required fields!");
+            return;
+        }
+    
+        // ✅ Debugging Step 3: Confirm Task Object is Created
+        let taskToSave = new Task(title, description, color, startDate, status, budget);
+        console.log("✅ Task Object Created:", taskToSave);
+    
+        // Call function to display task in the UI
+        displayTask(taskToSave);
 
-function saveTask() {
-    console.log("Saving task..."); // Logging to indicate task save process is starting
+        // Send task to server
+        $.ajax({
+            type: "POST",
+            url: "http://fsdiapi.azurewebsites.net/api/tasks/",
+            data: JSON.stringify(taskToSave),
+            contentType: "application/json",
+            success: function (response) {
+                console.log("✅ Task saved to server:", response);
+            },
+            error: function (error) {
+                console.error("❌ Error saving task:", error);
+            },
+        });
 
-    // Get values from input fields
-    const title = $("#txtTitle").val();
-    const description = $("#txtDescription").val();
-    const color = $("#selColor").val();
-    const date = $("#selDate").val();
-    const status = $("#selStatus").val();
-    const budget = $("#numBudget").val();
-    console.log(title, description, color, date, status, budget); // Logging retrieved values
+        // Clear form after submission
+        $("#taskForm")[0].reset();
+    } // ✅ Fixed misplaced closing brace
 
-    // Build an object containing task details
-    let taskToSave = new Task(title, description, color, date, status, budget);
-    console.log(taskToSave); // Logging the created task object
+    function displayTask(task) {
+        console.log("✅ displayTask() function called with:", task);
+    
+        // Ensure budget is a valid number
+        let formattedBudget = parseFloat(task.budget).toFixed(2);
+    
+        // Format the date correctly
+        let formattedDate = task.startDate 
+            ? new Date(task.startDate).toLocaleString() 
+            : "No Date";
+    
+        let syntax = `
+            <div class="task" style="border-color:${task.color}">
+                <div class="info">
+                    <h3>${task.title}</h3>
+                    <p>${task.description}</p>
+                </div>
+                <label class="status">${task.status}</label>
+                <div class="dateBudget">
+                    <label>${formattedDate}</label>  
+                    <label style="margin-left:auto; font-weight:bold;">$${formattedBudget}</label> 
+                </div>
+            </div>`;
+    
+        $(".pendingTask").append(syntax);
+        console.log("✅ Task successfully added to UI!");
+    }
 
-    // Send the task object to the server using an AJAX POST request
-    $.ajax({
-        type: "POST", // Defines request type as POST (sending data)
-        url: "http://fsdiapi.azurewebsites.net/api/tasks/", // API endpoint for saving tasks
-        data: JSON.stringify(taskToSave), // Convert object to JSON string for transmission
-        contentType: "application/json", // Specify JSON format
-        success: function (response) {
-            console.log(response); // Log server response when successful
-        },
-        error: function (error) {
-            console.log(error); // Log error if request fails
-        },
-    });
+    function loadTask() {
+        $(".pendingTask").empty(); // ✅ Clears previous tasks
 
-    // Display the task on the UI (this function is assumed to exist elsewhere)
-    // displayTask(taskToSave);
-}
+        $.ajax({
+            type: "GET", 
+            url: "http://fsdiapi.azurewebsites.net/api/tasks", 
+            success: function (res) { 
+                console.log("Retrieved tasks:", res); 
+                let data = JSON.parse(res); 
 
-function testRequests() {
-    // Test request to check if server is reachable
-    $.ajax({
-        type: "GET", // Defines request type as GET (retrieving data)
-        url: "http://fsdiapi.azurewebsites.net", // Test API endpoint
-        success: function (response) {
-            console.log(response); // Log successful server response
-        },
-        error: function (error) {
-            console.log(error); // Log error if request fails
-        },
-    });
-}
-
-function displayTask(task) {
-    // Construct HTML syntax to display task details dynamically
-    let syntax = `
-    <div class="task" style="border-color:${task.color}">
-        <div class="info">
-            <h3>${task.title}</h3>
-            <p>${task.desc}</p>
-        </div>
-        <label class="status">${task.status}</label>
-        <div class="dateBudget">
-            <label>${task.startdate}</label>
-            <label>${task.budget}</label>
-        </div>
-    </div>`;
-
-    // Append the generated HTML to the pending tasks section
-    $(".pendingTask").append(syntax);
-}
-
-function loadTask() {
-    // Retrieve saved tasks from the server
-    $.ajax({
-        type: "GET", // Defines request type as GET (retrieving data)
-        url: "http://fsdiapi.azurewebsites.net/api/tasks", // API endpoint for fetching tasks
-        success: function (res) {
-            console.log(res); // Log raw JSON response
-            let data = JSON.parse(res); // Convert JSON response to JavaScript object
-            console.log(data); // Log parsed data
-
-            // Filter tasks belonging to a specific user (assumed name "Adrian55")
-            for (let i = 0; i < data.length; i++) {
-                let task = data[i];
-                if (task.name == "KoireeTask") {
-                    displayTask(task); // Display user's tasks on the UI
+                for (let i = 0; i < data.length; i++) {
+                    let task = data[i];
+                    if (task.name === "KoireeTask") {
+                        displayTask(task);
+                    }
                 }
-            }
-        },
-        error: function (error) {
-            console.log(error); // Log error if request fails
-        },
-    });
-}
+            },
+            error: function (error) {
+                console.log("Error loading tasks:", error);
+            },
+        });
+    }
 
-function init() {
-    console.log("Initializing application..."); // Log when initialization begins
+    function clearTasksFromServer() {
+        $.ajax({
+            type: "DELETE",
+            url: "http://fsdiapi.azurewebsites.net/api/tasks/clear/KoireeTask", 
+            success: function (response) {
+                console.log("All tasks deleted from server:", response);
+                $(".pendingTask").empty();
+            },
+            error: function (error) {
+                console.log("Error clearing tasks:", error);
+            },
+        });
+    }
 
-    // Load existing tasks from the server
-    loadTask();
+    function init() {
+        console.log("✅ Initializing application..."); // Debugging log
+    
+        // Check if #btnSave exists before attaching event
+        if ($("#btnSave").length) {
+            console.log("✅ Button #btnSave exists in the DOM.");
+            $("#btnSave").click(saveTask);
+        } else {
+            console.error("❌ ERROR: #btnSave does NOT exist in the DOM.");
+        }
+    
+        loadTask(); // Load tasks when app initializes
+        $("#btnClear").click(clearTasksFromServer);
+    }
 
-    // Attach event listener to the save button
-    $("#btnSave").click(saveTask);
-}
-
-// Execute initialization function when the page loads
-window.onload = init;
-// app.js - This script is located in the 'scripts' folder of the project.
-
-function saveTask() {
-    console.log("Saving task..."); // Logging to indicate task save process is starting
-
-    // Get values from input fields
-    const title = $("#txtTitle").val();
-    const description = $("#txtDescription").val();
-    const color = $("#selColor").val();
-    const date = $("#selDate").val();
-    const status = $("#selStatus").val();
-    const budget = $("#numBudget").val();
-    console.log(title, description, color, date, status, budget); // Logging retrieved values
-
-    // Build an object containing task details
-    let taskToSave = new Task(title, description, color, date, status, budget);
-    console.log(taskToSave); // Logging the created task object
-
-    // Send the task object to the server using an AJAX POST request
-    $.ajax({
-        type: "POST", // Defines request type as POST (sending data)
-        url: "http://fsdiapi.azurewebsites.net/api/tasks/", // API endpoint for saving tasks
-        data: JSON.stringify(taskToSave), // Convert object to JSON string for transmission
-        contentType: "application/json", // Specify JSON format
-        success: function (response) {
-            console.log(response); // Log server response when successful
-        },
-        error: function (error) {
-            console.log(error); // Log error if request fails
-        },
-    });
-
-    // Display the task on the UI (this function is assumed to exist elsewhere)
-    // displayTask(taskToSave);
-}
-
-function testRequests() {
-    // Test request to check if server is reachable
-    $.ajax({
-        type: "GET", // Defines request type as GET (retrieving data)
-        url: "http://fsdiapi.azurewebsites.net", // Test API endpoint
-        success: function (response) {
-            console.log(response); // Log successful server response
-        },
-        error: function (error) {
-            console.log(error); // Log error if request fails
-        },
-    });
-}
-
-function displayTask(task) {
-    // Construct HTML syntax to display task details dynamically
-    let syntax = `
-    <div class="task" style="border-color:${task.color}">
-        <div class="info">
-            <h3>${task.title}</h3>
-            <p>${task.desc}</p>
-        </div>
-        <label class="status">${task.status}</label>
-        <div class="dateBudget">
-            <label>${task.startdate}</label>
-            <label>${task.budget}</label>
-        </div>
-    </div>`;
-
-    // Append the generated HTML to the pending tasks section
-    $(".pendingTask").append(syntax);
-}
-
-function loadTask() {
-    // Retrieve saved tasks from the server
-    $.ajax({
-        type: "GET", // Defines request type as GET (retrieving data)
-        url: "http://fsdiapi.azurewebsites.net/api/tasks", // API endpoint for fetching tasks
-        success: function (res) {
-            console.log(res); // Log raw JSON response
-            let data = JSON.parse(res); // Convert JSON response to JavaScript object
-            console.log(data); // Log parsed data
-
-            // Filter tasks belonging to a specific user (assumed name "Adrian55")
-            for (let i = 0; i < data.length; i++) {
-                let task = data[i];
-                if (task.name == "KoireeTask") {
-                    displayTask(task); // Display user's tasks on the UI
-                }
-            }
-        },
-        error: function (error) {
-            console.log(error); // Log error if request fails
-        },
-    });
-}
-
-function init() {
-    console.log("Initializing application..."); // Log when initialization begins
-
-    // Load existing tasks from the server
-    loadTask();
-
-    // Attach event listener to the save button
-    $("#btnSave").click(saveTask);
-}
-
-// Execute initialization function when the page loads
-window.onload = init;
+    window.onload = init;
+});
